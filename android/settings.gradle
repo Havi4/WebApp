@@ -1,0 +1,3 @@
+rootProject.name = 'GanHuo_Demo'
+
+include ':app'
