@@ -4,49 +4,43 @@
  */
 
 import React, {
-  AppRegistry,
-  Component,
-  StyleSheet,
-  Text,
-  View
+    AppRegistry,
+    StyleSheet,
+    Navigator,
+    Component,
 } from 'react-native';
 
+import HomePage from './app/HomePage';
+
 class GanHuo_Demo extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
+    // 构造
+    constructor(props) {
+        super(props);
+        // 初始状态
+        this.state = {};
+    }
+
+    render(){
+        return(
+            <Navigator
+                style={styles.container}
+                configureScene={(route)=>{
+                    return Navigator.SceneConfigs.VerticalDownSwipeJump;
+                }}
+                initialRoute={{component:HomePage}} 
+                renderScene={(route,navigator)=>{
+                    return <route.component navigator={navigator} {...route} {...route.passProps}/>
+                }}
+            />
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    container:{
+        flex:1//充满整个屏幕
+
+    }
 });
 
 AppRegistry.registerComponent('GanHuo_Demo', () => GanHuo_Demo);
