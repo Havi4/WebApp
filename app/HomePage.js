@@ -6,12 +6,13 @@ import React,{
     Image,
     Animated,
     Text,
-
+    TouchableHighlight,
 } from 'react-native';
 
-import DateUtils from './utils/DateUtils';
 import RequestUtils from './utils/RequestUtils';
 import SnackBar from './customViews/SnackBar';
+import WebPageView from './WebPage';
+import HistoryList from './HistoryList';
 
 class HomePage extends React.Component{
 
@@ -135,6 +136,14 @@ class HomePage extends React.Component{
             </Animated.View>
         );
     }
+    
+    _skipIntoHistory(contentDataGroup,dateArray){
+        this.props.navigator.push({
+            component:HistoryList,
+            passProps:{contentDataGroup,dateArray}
+            
+        });
+    }
 
     render(){
         let content;
@@ -147,12 +156,35 @@ class HomePage extends React.Component{
                     <View style={styles.headerWrapper}>
                         <Image source={{uri:homePageContent.福利[0].url}} style={{flex:1}}/>
                         <View style={styles.editorWrapper}>
-                            <Text style={styles.imageEditors}>{'via' + homePageContent.福利[0].who}</Text>
+                            <Text style={styles.imageEditors}>{'via:' + homePageContent.福利[0].who}</Text>
                         </View>
                     </View>
 
                     <View style={styles.contentWrapper}>
+                        <TouchableHighlight
+                            style={{flex:2,marginTop:17}}
+                            underlayColor={'#333333'}
+                            onPress={()=>{
+                                this.props.navigator.push({
+                                    component:WebPageView,
+                                    title:homePageContent.休息视频[0].desc,
+                                    url:homePageContent.休息视频[0].url
+                                })
+                            }}>
+                            <View style={styles.content}>
+                                <Text style={styles.videoTitle}>{homePageContent.休息视频[0].desc}</Text>
+                                <Text style={styles.dateAuthor}>{this.contentDataGroup[0].date+ ' ' + 'via:' + homePageContent.休息视频[0].who}</Text>
+                                <Text style={styles.toVideo}>--->去看视频~</Text>
+                            </View>
+                        </TouchableHighlight>
 
+                        <TouchableHighlight
+                            style={styles.buttonStyle}
+                            underlayColor={'#333333'} onPress={()=>this._skipIntoHistory(this.contentDataGroup,this.dateArray)}
+                        >
+                            <Text style={styles.toHistory}>查看往期</Text>
+
+                        </TouchableHighlight>
                     </View>
                 </View>
             );
@@ -206,7 +238,42 @@ let styles = StyleSheet.create({
         fontSize:15,
         color:'#aaaaaa',
         textAlign:'center'
+    },
+    videoTitle:{
+        fontSize:18,
+        color:'white',
+        marginTop:17,
+        left:15,
+        lineHeight:21,
+        marginRight:25
+    },
+    dateAuthor:{
+        fontSize:14,
+        color:'white',
+        position:'absolute',
+        left:15,
+        bottom:17
+    },
+    toVideo:{
+        fontSize:14,
+        color:'white',
+        position:'absolute',
+        bottom:8,
+        right:15
+    },
+    buttonStyle:{
+        backgroundColor:'#434243',
+        alignItems:'center',
+        justifyContent:'center',
+        flex:1,
+        marginTop:17,
+        marginBottom:17
+    },
+    toHistory:{
+        fontSize:18,
+        color:'white'
     }
+
 });
 
 module.exports = HomePage;

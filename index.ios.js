@@ -24,9 +24,6 @@ class GanHuo_Demo extends Component {
         return(
             <Navigator
                 style={styles.container}
-                configureScene={(route)=>{
-                    return Navigator.SceneConfigs.VerticalDownSwipeJump;
-                }}
                 initialRoute={{component:HomePage}} 
                 renderScene={(route,navigator)=>{
                     return <route.component navigator={navigator} {...route} {...route.passProps}/>
